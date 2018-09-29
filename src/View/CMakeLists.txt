@@ -1,0 +1,13 @@
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+file(GLOB UI_FILES ${PROJECT_SOURCE_DIR}/ui/*.ui)
+file(GLOB QRC_FILES ${PROJECT_SOURCE_DIR}/resource/*.qrc)
+file(GLOB HEADER_FILES ${PROJECT_SOURCE_DIR}/include/View/*.h)
+file(GLOB SOURCE_FILES *.cpp)
+
+qt5_wrap_ui(WRAP_FILES ${UI_FILES})
+qt5_add_resources(RCC ${QRC_FILES})
+add_executable(OSGBoat ${HEADER_FILES} ${SOURCE_FILES} ${QRC_FILES} ${WRAP_FILES})
+source_group(uis FILES ${UI_FILES})
+source_group(qrcs FILES ${QRC_FILES})
+source_group("Generated Files" FILES ${RCC} ${WRAP_FILES})
+target_link_libraries(OSGBoat Qt5::Network Qt5::Gui Qt5::OpenGL Qt5::Widgets Controller)
