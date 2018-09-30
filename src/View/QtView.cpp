@@ -15,6 +15,8 @@ jyQtView::jyQtView(jyQtControl * controller):jyViewBase(controller)
   connect(m_pParamDialog, &jyParamDialog::sigSendBoatID, this->getControl()->getOSGControl()->getBoatControl(), &jyBoatControl::slotGetUrl);
   connect(m_pParamDialog->getUI().pushButton_LinkStart, &QPushButton::clicked, this->getControl()->getOSGControl()->getBoatControl(),&jyBoatControl::slotLink);
   connect(m_Ui.pushButton_closeLink, &QPushButton::clicked, this->getControl()->getOSGControl()->getBoatControl(), &jyBoatControl::slotLinkClose);
+  //绑定初始化结果显示的槽函数
+  connect(this->getControl()->getOSGControl(), &jyOSGControl::sigInitFlag, this, &jyQtView::slotInitResultShow);
 //  connect(m_pParamDialog->getUI().pushButton_LinkStart, &QPushButton::clicked, this->getControl()->getOSGControl()->getLinkThread(), &jyLinkThread::slotGetURL);
 }
 
@@ -49,6 +51,19 @@ void jyQtView::initWidget()
 void jyQtView::paintEvent(QPaintEvent * event)
 {
   m_pOSGView->ViewerFlush();
+}
+
+void jyQtView::slotInitResultShow(bool InitFlag)
+{
+  qDebug() << InitFlag;
+  if (InitFlag)
+  {
+    QMessageBox::about(this, QString("Init"), QString("InitSuccess"));
+  }
+  else
+  {
+    QMessageBox::about(this, QString("Init"), QString("InitFailed"));
+  }
 }
 
 void jyQtView::updataView()

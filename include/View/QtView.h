@@ -48,6 +48,7 @@ private:
 
 public slots:
   void slotShowLinkBoatDialog();
+  void slotInitResultShow(bool InitFlag);
 };
 
 #endif

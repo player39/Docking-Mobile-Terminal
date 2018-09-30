@@ -4,6 +4,7 @@ jyQtControl::jyQtControl()
 {
   m_pParamControl = new jyParamControl();
   m_pOSGControl = new jyOSGControl();
+  m_pOSGControl->initRender();
  // m_pConnect = connectUpdataSignal(boost::bind(&jyQtControl::updataQtView,this));
 }
 

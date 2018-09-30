@@ -10,6 +10,7 @@ int main(int argc, char** argv)
   jyQtControl *mainControl = new jyQtControl();
   jyQtView *mainWin = new jyQtView(mainControl);
   mainWin->show();
+ // mainControl->getOSGControl()->initRender();
  // jyBoatControl *boat = new jyBoatControl();
  // jyLandControl *test = new jyLandControl();
   app.exec();

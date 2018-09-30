@@ -180,7 +180,6 @@ void jyBoatControl::slotLinkClose()
       m_pBoatLink = NULL;
     }
   }
-  
 }
 /*接收和处理数据的函数，这里有一个问题，在用户选择断开和船连接时，调用slotLinkclose，
 其中解除 m_pLinkThread和slotLinkFinished绑定，但是有概率在解除绑定之后仍旧执行一次slotChangeBoatData，

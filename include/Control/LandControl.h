@@ -9,7 +9,9 @@ class jyLandControl :public jyControlBase
 {
 
 public:
-  jyLandControl();//
+  jyLandControl();
+  //从服务器端获取数据初始化Land
+  void setLandCoordinate(double x, double y);
   point *getPoint();
   int m_fSurface[6][4] = { { 0, 1, 3, 2 } ,{ 2, 3, 7, 6 },{ 6,7,5,4 },{ 4,5,1,0 },{ 4, 6, 2, 0 },{ 5,1,3,7 } };
   Matrix_Translate getTranslate();

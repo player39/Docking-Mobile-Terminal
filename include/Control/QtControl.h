@@ -5,6 +5,7 @@
 #include <Control/QtParamControl.h>
 #include <Control/OSGControl.h>
 #include <boost/signals2.hpp>
+#include <QtCore/QObject>
 
 //typedef boost::signals2::signal<void()>::slot_type slotType;
 //QtÖ÷´°¿ÚµÄcontrol
@@ -23,6 +24,7 @@ private:
   jyParamControl *m_pParamControl = NULL;
   jyOSGControl *m_pOSGControl = NULL;
 //  boost::signals2::connection m_pConnect;
+
 };
 
 #endif

@@ -7,8 +7,8 @@ jyLinkThread::jyLinkThread()
 
 jyLinkThread::~jyLinkThread()
 {
-  qDebug()<<disconnect(m_pAccessManager, &QNetworkAccessManager::finished, this, &jyLinkThread::slotFinished);
-  qDebug()<<disconnect(m_pTime, &QTimer::timeout, this, &jyLinkThread::slotLink);
+  disconnect(m_pAccessManager, &QNetworkAccessManager::finished, this, &jyLinkThread::slotFinished);
+  disconnect(m_pTime, &QTimer::timeout, this, &jyLinkThread::slotLink);
 }
 void jyLinkThread::setBoatID(QString boatid)
 {
