@@ -1,3 +1,4 @@
+
 #ifndef _QTCONTROL_H
 #define _QTCONTROL_H
 
@@ -6,25 +7,27 @@
 #include <Control/OSGControl.h>
 #include <boost/signals2.hpp>
 #include <QtCore/QObject>
+#include <Control/ShipListControl.h>
 
-//typedef boost::signals2::signal<void()>::slot_type slotType;
 //Qt主窗口的control
 class jyQtControl :public jyControlBase
 {
 
 public:
   jyQtControl();
-  jyParamControl *getParamControl();
-  jyOSGControl *getOSGControl();
+  jyParamControl* getParamControl();
+  jyOSGControl* getOSGControl();
+  jyShipListControl* getShipListControl();
 //  void updataQtView();
 //  boost::signals2::connection connectUpdataSignal(const slotType& type);
 
 private:
   //维护osg的control和输入窗口的control
-  jyParamControl *m_pParamControl = NULL;
-  jyOSGControl *m_pOSGControl = NULL;
+  jyParamControl* m_pParamControl = NULL;
+  jyOSGControl* m_pOSGControl = NULL;
+  jyShipListControl* m_pAutoLinkControl = NULL;
 //  boost::signals2::connection m_pConnect;
 
 };
 
-#endif
+#endif // _QTCONTROL_H

@@ -4,6 +4,12 @@ jyLandControl::jyLandControl()
 {
 }
 
+void jyLandControl::setLandCoordinate(double x, double y)
+{
+  m_matrixTranslate.x = x;
+  m_matrixTranslate.y = y;
+}
+
 point * jyLandControl::getPoint()
 {
   return m_point;
@@ -11,5 +17,5 @@ point * jyLandControl::getPoint()
 
 Matrix_Translate jyLandControl::getTranslate()
 {
-  return m_translate;
+  return m_matrixTranslate;
 }

@@ -1,3 +1,4 @@
+
 #ifndef _BOATCONTROL_H
 #define _BOATCONTROL_H
 
@@ -20,7 +21,7 @@ public:
   Matrix_Translate getTranslate();
   point getCoordinate();
   double getRotate();
-  void setRotate(double rotate);
+  void setRotate(double dRotate);
   double getLandAveDistance();
   double getDistance1();
   double getDistance2();
@@ -40,39 +41,39 @@ public:
 
 private:
   /*多线程部分*/
-  jyLinkThread *m_pBoatLink = NULL;
-  QThread *m_pLinkThread = NULL;
+  jyLinkThread* m_pBoatLink = NULL;
+  QThread* m_pLinkThread = NULL;
   /*锁*/
   QMutex m_Lock;
   //船运动的基本数据
-  Matrix_Translate m_mTranslate = {0,0,0}; //= {1244198.838750, 1300793.477073};
-  Matrix_Rotate m_mRotate = { 0,0,0,0 };
+  Matrix_Translate m_matrixTranslate = {0,0,0}; //= {1244198.838750, 1300793.477073};
+  Matrix_Rotate m_matrixRotate = { 0,0,0,0 };
   //当前坐标
-  point m_NowCoordinate = {0,0,0};
+  point m_pointNowCoordinate = {0,0,0};
   //船速
   double m_dRate=0;
   //时间
-  QString m_stime;
-  double m_dRotate;
+  QString m_strTime = "";
+  double m_dRotate = 0.0;
   //用来标记船上两个gps是否连通
   bool m_bGPSLinkFlag[2] = {false,false};
   /*三个距离，船中心点，船头船尾到岸基距离*/
-  double m_dAveLandDistance;
-  double m_dLandDistance1;
-  double m_dLandDistance2;
+  double m_dAveLandDistance = 0.0;
+  double m_dLandDistance1 = 0.0;
+  double m_dLandDistance2 = 0.0;
   //与岸基夹角
-  QString m_sLandRadio;
+  QString m_strLandRadio = "";
   //服务器端发回的船的ID
-  QString m_sID="";
+  QString m_strID="";
   //手持终端用户指定要连接船的ID
-  QString m_sBoatID = "";
+  QString m_strBoatID = "";
   //4个报警状态，分别是船头船尾 xy方向
-  QString m_sHeadWarningX = "Danger";
-  QString m_sHeadWarningY = "Danger";
-  QString m_sSternWarningX = "Danger";
-  QString m_sSternWarningY = "Danger";
+  QString m_strHeadWarningX = "Danger";
+  QString m_strHeadWarningY = "Danger";
+  QString m_strSternWarningX = "Danger";
+  QString m_strSternWarningY = "Danger";
   //船运动状态，加速减速匀速
-  QString m_sMoveState = "Null";
+  QString m_strMoveState = "Null";
   //船模型
 
 public slots:
@@ -82,7 +83,7 @@ public slots:
   //关闭TCP连接
   void slotLinkClose();
   //和Qt层发出的信号绑定，接收用户指定的船只ID
-  void slotGetUrl(const QString boatid);
+  void slotGetUrl(const QString& boatid);
 };
 
 #endif //_BOATCONTROL_H

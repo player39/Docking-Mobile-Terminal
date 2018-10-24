@@ -1,3 +1,4 @@
+
 #ifndef _QTPARAMCONTROL_H
 #define _QTPARAMCONTROL_H
 
@@ -9,4 +10,4 @@ public:
   jyParamControl();
 };
 
-#endif
+#endif // _QTPARAMCONTROL_H

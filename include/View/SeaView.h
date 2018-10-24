@@ -18,6 +18,7 @@
 #include <osg/PolygonMode>
 #include <osgDB/ReadFile>
 #include <osg/Texture2D>
+#include <osg/Material>
 
 class jySeaView :public jyViewBase<jySeaControl>
 {

@@ -1,3 +1,4 @@
+
 #ifndef _QTPARAMDIALOG_H
 #define _QTPARAMDIALOG_H
 
@@ -13,7 +14,9 @@ class jyParamDialog :public QDialog,public jyViewBase<jyParamControl>
 {
   Q_OBJECT
 public:
-  jyParamDialog(jyParamControl *controller=0,QMainWindow *parent=Q_NULLPTR);
+  jyParamDialog(jyParamControl* controller = 0, QMainWindow* parent = Q_NULLPTR);
+  //由QtView主动调用进行船只的自动连接
+  void EmitShipID(const QString& shipid);
   Ui::LinkServerDialog getUI();
 
 private:
@@ -21,7 +24,7 @@ private:
 
 signals :
   //发送船只id的信号给BoatControl做连接
-  void sigSendBoatID(QString boatid);
+  void sigSendBoatID(const QString& boatid);
 
 public slots:
   //返回连接结果的函数，目前还没有用上
@@ -30,4 +33,4 @@ public slots:
   void slotEmitBoatID();
 };
 
-#endif
+#endif // _QTPARAMDIALOG_H

@@ -1,3 +1,4 @@
+
 #ifndef _LANDVIEW_H
 #define _LANDVIEW_H
 
@@ -25,4 +26,4 @@ private:
 
 };
 
-#endif
+#endif // _LANDVIEW_H

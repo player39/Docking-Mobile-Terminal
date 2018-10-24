@@ -4,6 +4,7 @@ jyGLDrawable::jyGLDrawable()
 {
   m_pTimer.setStartTick();
   m_pPoint = new osg::Vec3Array();
+  qDebug() << m_dQ[0] << m_dQ[1] << m_dQ[2];
 }
 
 double* jyGLDrawable::jymath1(double _x, double _y)
@@ -114,6 +115,7 @@ void jyGLDrawable::update(osg::NodeVisitor * m_nodevisitor, osg::Drawable * m_dr
           }
           else
           {
+            //qDebug() << -normal_x << -normal_y << 1 - normal_z;
             m_pNormalIterator->set(-normal_x, -normal_y, 1 - normal_z);
           }
         }//*/
@@ -126,12 +128,12 @@ void jyGLDrawable::update(osg::NodeVisitor * m_nodevisitor, osg::Drawable * m_dr
         {
           ++m_pNormalIterator;
         }//*/
-        // qDebug() << "Coordinate: " << x0 << y0 << z0;
+         //qDebug() << "Coordinate: " << x0 << y0 << z0;
         
       }
     }
     vertices->dirty();
-    qDebug() << "dirty";
+    //qDebug() << "dirty";
     m_dLasttime = m_dNowtime;
     m_dNowtime += 0.1;
     flagpoint = true;

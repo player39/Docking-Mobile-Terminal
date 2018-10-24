@@ -4,9 +4,9 @@ jyBoatControl::jyBoatControl()
 {
   m_pBoatLink = new jyLinkThread();
   m_pLinkThread = new QThread();
-  m_NowCoordinate.x = 0;
-  m_NowCoordinate.y = 0;
-  m_NowCoordinate.z = 0;
+  m_pointNowCoordinate.x = 0;
+  m_pointNowCoordinate.y = 0;
+  m_pointNowCoordinate.z = 0;
   /*暂时的船只顶点数据*/
   float _tem[8][3] = { {50,-20,0}, {-50,-20,0}, {-50,-20,2}, {50,-20,2},
                        {50,20,0}, {-50,20,0}, {-50,20,2}, {50,20,2} };
@@ -47,12 +47,12 @@ point * jyBoatControl::getPoint()
 
 Matrix_Translate jyBoatControl::getTranslate()
 {
-  return m_mTranslate;
+  return m_matrixTranslate;
 }
 
 point jyBoatControl::getCoordinate()
 {
-  return m_NowCoordinate;
+  return m_pointNowCoordinate;
 }
 
 double jyBoatControl::getRotate()
@@ -60,9 +60,9 @@ double jyBoatControl::getRotate()
   return m_dRotate;
 }
 
-void jyBoatControl::setRotate(double rotate)
+void jyBoatControl::setRotate(double dRotate)
 {
-  m_dRotate = rotate;
+  m_dRotate = dRotate;
 }
 
 double jyBoatControl::getLandAveDistance()
@@ -87,7 +87,7 @@ bool * jyBoatControl::getGPSLinkFlag()
 
 QString jyBoatControl::getLandRadio()
 {
-  return m_sLandRadio;
+  return m_strLandRadio;
 }
 
 double jyBoatControl::getRate()
@@ -97,58 +97,53 @@ double jyBoatControl::getRate()
 
 QString jyBoatControl::getID()
 {
-  return m_sID;
+  return m_strID;
 }
 
 QString jyBoatControl::getTime()
 {
-  return m_stime;
+  return m_strTime;
 }
 
 QString jyBoatControl::getMoveState()
 {
-  return m_sMoveState;
+  return m_strMoveState;
 }
 
 QString jyBoatControl::getHeadWarningX()
 {
-  return m_sHeadWarningX;
+  return m_strHeadWarningX;
 }
 
 QString jyBoatControl::getHeadWarningY()
 {
-  return m_sHeadWarningY;
+  return m_strHeadWarningY;
 }
 
 QString jyBoatControl::getSternWarningX()
 {
-  return m_sSternWarningX;
+  return m_strSternWarningX;
 }
 
 QString jyBoatControl::getSternWarningY()
 {
-  return m_sSternWarningY;
+  return m_strSternWarningY;
 }
 
-void jyBoatControl::slotGetUrl(const QString boatid)
+void jyBoatControl::slotGetUrl(const QString& boatid)
 {
-  m_sBoatID = boatid;
+  m_strBoatID = boatid;
 }
 
 void jyBoatControl::slotLink()
 {
   /*避免重复启动*/
   if(!m_pBoatLink)
-  {
     m_pBoatLink = new jyLinkThread();
-  }
-  
   if (!m_pLinkThread)
-  {
     m_pLinkThread = new QThread();
-  }
   //设置要连接的船只id
-  m_pBoatLink->setBoatID(m_sBoatID);
+  m_pBoatLink->setBoatID(m_strBoatID);
   /*开启线程接收船只数据，QThread 启动后默认调用exec()事件循环，采取这种写法是为了使在QLinkThread类中定义的函数均在QThread中运行*/
   m_pBoatLink->moveToThread(m_pLinkThread);
   m_pLinkThread->start();
@@ -189,163 +184,142 @@ void jyBoatControl::slotLinkClose()
 void jyBoatControl::slotChangeBoatData()
 {
   //多线程访问一个资源，加锁
-  QMutexLocker _lock(&m_Lock);
+  QMutexLocker mutexLock(&m_Lock);
   //迭代器访问QMap
-  QMap<QString, QString>::const_iterator i;
+
   //原因如上
   if (!m_pBoatLink)
-  {
     return;
-  }
   //开始读取和处理数据
-  for (i = m_pBoatLink->getDataMap().constBegin(); i != m_pBoatLink->getDataMap().constEnd(); ++i)
+  /*
+  for (QMap<QString, QString>::const_iterator i = m_pBoatLink->getDataMap().constBegin(); i != m_pBoatLink->getDataMap().constEnd(); ++i)
+  {*/
+  QMapIterator<QString, QString> itr(m_pBoatLink->getDataMap());
+  while(itr.hasNext())
   {
+    itr.next();
     //qDebug() << i.key() << ":" << i.value()<<"this is boat control";
     //读船只坐标，这里是原始坐标没有减去中心坐标，并且通过前一次减去这次读到的数据计算出平移坐标
-    if (i.key() == QString("Boat_Coordinate"))
+    if (itr.key() == "Boat_Coordinate")
     {    
-      QStringList _tem = i.value().split(',');//会不会存在value中没有值的情况
+      QStringList strlTemCoor = itr.value().split(',');//会不会存在value中没有值的情况
       //计算平移坐标
-      m_mTranslate.x = _tem[0].toDouble() - m_NowCoordinate.x ;
-      m_mTranslate.y = _tem[1].toDouble() - m_NowCoordinate.y ;
-      m_mTranslate.z = 0;
-      qDebug() << m_mTranslate.x << m_mTranslate.y;
+      m_matrixTranslate.x = strlTemCoor[0].toDouble() - m_pointNowCoordinate.x ;
+      m_matrixTranslate.y = strlTemCoor[1].toDouble() - m_pointNowCoordinate.y ;
+      m_matrixTranslate.z = 0;
+      //qDebug() << "ShipCoor:" << strlTemCoor;
+      //qDebug() <<"translate:" << m_matrixTranslate.x << m_matrixTranslate.y;
       //保存最新的坐标
-      m_NowCoordinate.x = _tem[0].toDouble();
-      m_NowCoordinate.y = _tem[1].toDouble();
-      m_NowCoordinate.z = 0;
+      m_pointNowCoordinate.x = strlTemCoor[0].toDouble();
+      m_pointNowCoordinate.y = strlTemCoor[1].toDouble();
+      m_pointNowCoordinate.z = 0;
+      continue;
     }
     //船只速度
-    if (i.key() == QString("Boat_Rate"))
+    if (itr.key() == "Boat_Rate")
     {
-      m_dRate = i.value().toFloat();
+      m_dRate = itr.value().toFloat();
+      continue;
     }
     //GPS发送数据的时间
-    if (i.key() == QString("Boat_Time"))
+    if (itr.key() == "Boat_Time")
     {
-      m_stime = i.value();
+      m_strTime = itr.value();
+      continue;
     }
     //船只旋转角度
-    if (i.key() == QString("Boat_Rotate"))
+    if (itr.key() == "Boat_Rotate")
     {
-      qDebug() << "RotateGET"<<i.value();
-      m_dRotate = i.value().toDouble();
+      m_dRotate = itr.value().toDouble();
+      continue;
     }
     //船只id
-    if (i.key() == QString("Boat_ID"))
+    if (itr.key() == "Boat_ID")
     {
-      m_sID = i.value();
+      m_strID = itr.value();
+      continue;
     }
     //船只中心点离岸基距离
-    if (i.key() == QString("Boat_AveLandDistance"))
+    if (itr.key() == "Boat_AveLandDistance")
     {
-      m_dAveLandDistance = i.value().toDouble();
+      m_dAveLandDistance = itr.value().toDouble();
+      continue;
     }
     //船头离岸基距离
-    if (i.key() == QString("Boat_LandDistance1"))
+    if (itr.key() == "Boat_LandDistance1")
     {
-      m_dLandDistance1 = i.value().toDouble();
+      m_dLandDistance1 = itr.value().toDouble();
+      continue;
     }
     //船尾离岸基距离
-    if (i.key() == QString("Boat_LandDistance2"))
+    if (itr.key() == "Boat_LandDistance2")
     {
-      m_dLandDistance2 = i.value().toDouble();
+      m_dLandDistance2 = itr.value().toDouble();
+      continue;
     }
     //船只与岸基夹角，需要修改实际上是靠这个确认船体姿态
-    if (i.key() == QString("Boat_LandRadio"))
+    if (itr.key() == "Boat_LandRadio")
     {
-      m_sLandRadio = i.value();
+      m_strLandRadio = itr.value();
+      continue;
     }
     //船只和船头GPS连接状态
-    if (i.key() == QString("Boat_ConnectionFlag1"))
+    if (itr.key() == "Boat_ConnectionFlag1")
     {
-      if (QString(i.value()) == "True")
-      {
-        m_bGPSLinkFlag[0] = true;
-      }
-      else
-      {
-        m_bGPSLinkFlag[0] = false;
-      }
+      m_bGPSLinkFlag[0] = (itr.value() == "True") ? true : false;
+      continue;
     }
     //船只和船尾GPS连接状态
-    if (i.key() == QString("Boat_ConnectionFlag2"))
+    if (itr.key() == "Boat_ConnectionFlag2")
     {
-      if (QString(i.value()) == "True")
-      {
-        m_bGPSLinkFlag[1] = true;
-      }
-      else
-      {
-        m_bGPSLinkFlag[1] = false;
-      }
+      m_bGPSLinkFlag[1] = (itr.value() == "True") ? true : false;
+      continue;
     }
     //船运动状态，加速减速匀速
-    if (i.key() == QString("Boat_MoveState"))
+    if (itr.key() == "Boat_MoveState")
     {
-      if (QString(i.value()) == "0")
+      if (itr.value() == "0")
       {
-        m_sMoveState = "Decelerate";
+        m_strMoveState = "Decelerate";
+        continue;
       }
-      if (QString(i.value()) == "1")
+      if (itr.value() == "1")
       {
-        m_sMoveState = "Uniform Speed";
+        m_strMoveState = "Uniform Speed";
+        continue;
       }
-      if (QString(i.value()) == "2")
+      if (itr.value() == "2")
       {
-        m_sMoveState = "Accelerate";
+        m_strMoveState = "Accelerate";
+        continue;
       }
+      qDebug() << "error";
     }
     //报警flag 船头X方向报警
-    if (i.key() == QString("Boat_HeadWarningX"))
+    if (itr.key() == "Boat_HeadWarningX")
     {
-      if (QString(i.value()) == "False")
-      {
-        m_sHeadWarningX = "Safe";
-      }
-      else
-      {
-        m_sHeadWarningX = "Danger";
-      }
+      m_strHeadWarningX = (itr.value() == "False") ? "Safe" : "Danger";
+      continue;
     }
     //报警flag 船头Y方向报警
-    if (i.key() == QString("Boat_HeadWarningY"))
+    if (itr.key() == "Boat_HeadWarningY")
     {
-      if (QString(i.value()) == "False")
-      {
-        m_sHeadWarningY = "Safe";
-      }
-      else
-      {
-        m_sHeadWarningY = "Danger";
-      }
+      m_strHeadWarningY = (itr.value() == "False") ? "Safe" : "Danger";
+      continue;
     }
     //报警flag 船尾X方向报警
-    if (i.key() == QString("Boat_SternWarningX"))
+    if (itr.key() == "Boat_SternWarningX")
     {
-      if (QString(i.value()) == "False")
-      {
-        m_sSternWarningX = "Safe";
-      }
-      else
-      {
-        m_sSternWarningX = "Danger";
-      }
+      m_strSternWarningX = (itr.value() == "False") ? "Safe" : "Danger";
+      continue;
     }
     //报警flag 船尾Y方向报警
-    if (i.key() == QString("Boat_SternWarningY"))
+    if (itr.key() == "Boat_SternWarningY")
     {
-      if (QString(i.value()) == "False")
-      {
-        m_sSternWarningY = "Safe";
-      }
-      else
-      {
-        m_sSternWarningY = "Danger";
-      }
+      m_strSternWarningY = (itr.value() == "False") ? "Safe" : "Danger";
+      continue;
     }
   }
   //发送数据更新完毕的信号，通知视图层进行重新渲染
    emitSigUpdata();
-  
 }

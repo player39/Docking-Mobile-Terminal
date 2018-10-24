@@ -85,10 +85,16 @@ void jySeaView::initView()
   m_pSeaGeometry->setUpdateCallback(new jyGLDrawable);
   m_pSeaGeometry->setUseDisplayList(false);
   m_pSeaGeometry->setUseVertexBufferObjects(true);
-
+  
+  osg::ref_ptr<osg::Material> pSeaMaterial = new osg::Material;
+  pSeaMaterial->setDiffuse(osg::Material::FRONT, osg::Vec4(1, 1, 1, 1.0));
+  pSeaMaterial->setAmbient(osg::Material::FRONT, osg::Vec4(1, 1, 1, 1.0));
+  pSeaMaterial->setSpecular(osg::Material::FRONT, osg::Vec4(0, 0, 0, 1));
+  pSeaMaterial->setShininess(osg::Material::FRONT, 90);
   osg::ref_ptr<osg::StateSet> stateset = m_pSeaGeode->getOrCreateStateSet();
 //  stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 //  stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+  stateset->setAttributeAndModes(pSeaMaterial);
   stateset->setTextureAttributeAndModes(0, _SeaTex, 1);
   
   //设置网格模型

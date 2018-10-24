@@ -1,0 +1,38 @@
+QPushButton
+{
+    padding: .3em .5em;
+	margin-left: 10px;
+    background-image: linear-gradient(#ddd, #bbb);
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3em;
+    text-align: center;
+    color:#000000;
+    font-weight: bold;
+}
+QPushButton:pressed{
+    border-color: rgba(0,0,0,.3);
+    background: #bbb;
+}
+#frame_osgFrame
+{
+    border:2px solid #000000;
+}
+
+#frame_dataFrame
+{
+	border:2px solid #000000;
+	background-color:#EFEFEF;
+}
+
+#centralwidget
+{
+	background-color:#FFFFFF;
+}
+
+#lineEdit_accuracy
+{
+	border: 1px solid #ccc; 
+    padding: 7px 0px;
+    border-radius: 3px;
+    padding-left:5px; 	
+}

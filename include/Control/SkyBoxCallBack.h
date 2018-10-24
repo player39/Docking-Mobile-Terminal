@@ -1,3 +1,4 @@
+
 #ifndef _SKYBOXCALLBACK_H
 #define _SKYBOXCALLBACK_H
 
@@ -17,4 +18,4 @@ protected:
   double _rotateZ;
 };
 
-#endif // !1
+#endif // _SKYBOXCALLBACK_H

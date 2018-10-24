@@ -1,5 +1,6 @@
 #ifndef _BOATDATA_H
 #define _BOATDATA_H
+#include <string>
 
 struct Matrix_Translate
 {
@@ -14,6 +15,16 @@ struct Matrix_Translate
     return *this;
   }
 };
+
+//double转时间格式,不加上inline会报链接错误
+inline std::string DoubleToTimeData(double timedata)
+{
+  int _hour = timedata / 10000;
+  int _minute = (timedata - _hour * 10000) / 100;
+  double _sec = (timedata - _hour * 10000 - _minute * 100);
+  std::string _TimeData = std::to_string(_hour) + ":" + std::to_string(_minute) + ":" + std::to_string(_sec);
+  return _TimeData;
+}
 
 struct Matrix_Rotate
 {

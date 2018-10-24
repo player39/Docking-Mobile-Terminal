@@ -1,8 +1,10 @@
+
 #ifndef _BOATVIEW_H
 #define _BOATVIEW_H
 
 #include <Control/BoatControl.h>
 #include <View/ViewBase.h>
+#include <Model/BoatData.h>
 #include <osg/Node>
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -10,11 +12,12 @@
 #include <osg/Vec3>
 #include <osg/Vec4>
 #include <osgUtil/SmoothingVisitor>
+#include <osg/Material>
 
 class jyBoatView :public jyViewBase<jyBoatControl>
 {
 public:
-  jyBoatView(jyBoatControl *controller);
+  jyBoatView(jyBoatControl* pController);
   ~jyBoatView();
   virtual void initView();
   virtual void updataView();
@@ -27,4 +30,4 @@ private:
   osg::ref_ptr<osg::MatrixTransform> m_pTransform;
 };
 
-#endif
+#endif // _BOATVIEW_H

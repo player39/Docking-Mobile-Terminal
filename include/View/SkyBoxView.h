@@ -1,3 +1,4 @@
+
 #ifndef _SKYBOXVIEW_H
 #define _SKYBOXVIEW_H
 
@@ -31,4 +32,4 @@ private:
 
 };
 
-#endif
+#endif //_SKYBOXVIEW_H

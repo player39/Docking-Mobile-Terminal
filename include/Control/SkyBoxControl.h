@@ -1,3 +1,4 @@
+
 #ifndef _SKYBOXCONTROL_H
 #define _SKYBOXCONTROL_H
 
@@ -22,4 +23,4 @@ private:
   float m_fSkyBoxRadius=6000000.0f;
 };
 
-#endif
+#endif //_SKYBOXCONTROL_H
