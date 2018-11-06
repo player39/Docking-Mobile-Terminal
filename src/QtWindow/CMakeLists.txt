@@ -1,0 +1,13 @@
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+file(GLOB QTWINDOW_HEADERS ${PROJECT_SOURCE_DIR}/include/QtWindow/*.h)
+file(GLOB QTWINDOW_CPPS *.cpp)
+file(GLOB UI_FILES ${PROJECT_SOURCE_DIR}/ui/*.ui)
+file(GLOB QRC_FILES ${PROJECT_SOURCE_DIR}/resources/*.qrc)
+
+qt5_wrap_ui(WRAP_FILES ${UI_FILES})
+qt5_add_resources(RCC ${QRC_FILES})
+add_library(QtWindow STATIC ${QTWINDOW_HEADERS} ${QTWINDOW_CPPS} ${WRAP_FILES} ${RCC})
+source_group(uis FILES ${UI_FILES})
+source_group(qrcs FILES ${QRC_FILES})
+source_group("Generated Files" FILES ${WRAP_FILES})
+target_link_libraries(QtWindow  Qt5::Core Qt5::Widgets Qt5::Gui LinkBackground Control)

@@ -1,4 +1,4 @@
-project(OSGBoat)
+project(OSGShip)
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -18,5 +18,6 @@ ${Qt5Widgets_INCLUDE_DIRS}
 ${OSGQT_INCLUDE_DIR}
 ${Qt5OpenGL_INCLUDE_DIRS}
 ${Boost_INCLUDE_DIR}
+${CMAKE_BINARY_DIR}/src/QtWindow
 )
 add_subdirectory(src)

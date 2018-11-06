@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>uiParamControlWidget</class>
+ <widget class="QWidget" name="uiParamControlWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>468</width>
+    <height>104</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>uiParamControlWidget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="uiInitWidget" name="widget_Init" native="true"/>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="uiLinkWidget" name="widget_Link" native="true"/>
+     </item>
+     <item>
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="uiDisplayParamWidget" name="widget_DisplayParam" native="true"/>
+     </item>
+     <item>
+      <widget class="Line" name="line_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="uiCameraParamWidget" name="widget_CameraParam" native="true"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>uiDisplayParamWidget</class>
+   <extends>QWidget</extends>
+   <header>uidisplayparamwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>uiCameraParamWidget</class>
+   <extends>QWidget</extends>
+   <header>uicameraparamwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>uiInitWidget</class>
+   <extends>QWidget</extends>
+   <header>uiinitwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>uiLinkWidget</class>
+   <extends>QWidget</extends>
+   <header>uilinkwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

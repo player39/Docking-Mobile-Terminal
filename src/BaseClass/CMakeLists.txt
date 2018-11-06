@@ -1,0 +1,5 @@
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+file(GLOB BASE_HEADERS ${PROJECT_SOURCE_DIR}/include/BaseClass/*.h)
+file(GLOB BASE_SOURCE ${PROJECT_SOURCE_DIR}/src/BaseClass/*.cpp)
+
+add_library(BaseClass STATIC ${BASE_HEADERS} ${BASE_SOURCE})

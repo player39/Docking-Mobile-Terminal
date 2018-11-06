@@ -1,0 +1,4 @@
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+file(GLOB BASE_HEADERS ${PROJECT_SOURCE_DIR}/include/Math/*.h)
+
+add_library(MathMethod STATIC ${BASE_HEADERS})

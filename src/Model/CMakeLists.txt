@@ -1,3 +1,0 @@
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
-file(GLOB HEADER_FILES ${PROJECT_SOURCE_DIR}/include/Model/*.h)
-add_library(ModelData ${HEADER_FILES})
