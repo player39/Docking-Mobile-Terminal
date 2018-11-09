@@ -3,7 +3,8 @@
 #define _UIPARAMCONTROLWIDGET_H
 
 #include "ui_uiParamControlWidget.h"
-#include "Control/ShipControl.h"
+#include "Control/ObjectControl.h"
+#include "Control/ObjectControl.h"
 #include <QtWidgets/QWidget>
 
 class uiParamControlWidget : public QWidget
@@ -13,7 +14,7 @@ class uiParamControlWidget : public QWidget
 public:
   uiParamControlWidget(QWidget* parent = Q_NULLPTR);
   ~uiParamControlWidget();
-  void setControlGroup(jyShipControlPtr shipcontrol);
+  void setControlGroup(jyObjectControlPtr objectcontrol);
 
 private:
   Ui::uiParamControlWidget ui;

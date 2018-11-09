@@ -7,7 +7,7 @@ int main(int argc, char** argv)
   QApplication app(argc, argv);
   
 
-  uiMainWindow *mainWin = new uiMainWindow();
+  uiMainWindow* mainWin = new uiMainWindow();
   mainWin->show();
   
   app.exec();

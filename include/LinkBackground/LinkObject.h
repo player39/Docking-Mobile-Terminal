@@ -27,7 +27,7 @@ public:
   
   void setControl(jyShipControlPtr shipcontrol);
   
-  void setShipID(QString shipid);
+  void setShipID(const QString& shipid);
   void changeLoopFlag(bool loopflag);
   void pollingLink();
 

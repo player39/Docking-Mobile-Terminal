@@ -3,6 +3,7 @@
 #define _CONTROLBASE_H
 
 #include "BaseClass/ViewBase.h"
+#include "Data/Config.h"
 #include <boost/signals2.hpp>
 
 class jyControlBase
@@ -14,8 +15,10 @@ public:
   sig_UpdateData m_sigUpdateData;
   boost::signals2::connection connectUpdateData(const sig_UpdateData::slot_type& slot);
 
+  virtual void initControlParam(const stdMapString* initdatagroup);
+
 private:
 
 };
 
-#endif
+#endif // _CONTROLBASE_H

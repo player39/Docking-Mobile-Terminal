@@ -10,7 +10,8 @@ uiParamControlWidget::~uiParamControlWidget()
 {
 }
 
-void uiParamControlWidget::setControlGroup(jyShipControlPtr shipcontrol)
+void uiParamControlWidget::setControlGroup(jyObjectControlPtr shipcontrol)
 {
   ui.widget_Link->setControl(shipcontrol);
+  ui.widget_Init->setControl(shipcontrol);
 }

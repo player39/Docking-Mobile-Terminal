@@ -18,12 +18,25 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="3,1">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,1">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,1">
         <item>
-         <widget class="QWidget" name="widget_OSGRender" native="true"/>
+         <layout class="QGridLayout" name="gridLayout"/>
         </item>
         <item>
-         <widget class="uiDisplayData" name="widget_DisplayData" native="true"/>
+         <widget class="uiDisplayData" name="widget_DisplayData" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>280</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>280</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

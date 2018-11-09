@@ -13,3 +13,8 @@ boost::signals2::connection jyControlBase::connectUpdateData(const sig_UpdateDat
 {
   return m_sigUpdateData.connect(slotMethod);
 }
+
+void jyControlBase::initControlParam(const stdMapString * initdatagroup)
+{
+}
+

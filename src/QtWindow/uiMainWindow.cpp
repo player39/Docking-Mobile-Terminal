@@ -1,6 +1,8 @@
 
 #include "QtWindow/uiMainWindow.h"
 
+#define FLASHTICK 40
+
 uiMainWindow::uiMainWindow(QWidget* parent /*= Q_NULLPTR*/) :
   QMainWindow(parent)
 {
@@ -29,11 +31,31 @@ uiMainWindow::uiMainWindow(QWidget* parent /*= Q_NULLPTR*/) :
 
   g_Settings.endGroup();
   //初始化
-  m_pShipControl.reset(new jyShipControl);
-  ui.widget_DisplayData->setMvcControl(m_pShipControl);
-  ui.widget_ParamControl->setControlGroup(m_pShipControl);
+  m_pObjectControl.reset(new jyObjectControl);
+  jyOSGControlPtr pOSGControl = m_pObjectControl->getOSGControl();
+  ui.widget_DisplayData->setMvcControl(pOSGControl->getShipControl());
+  ui.widget_ParamControl->setControlGroup(m_pObjectControl);
+
+  m_pSelectShipWidget = new uiSelectShipWidget(this);
+  m_pSelectShipWidget->setMvcControl(m_pObjectControl->getSelectShipControl());
+  m_pSelectShipWidget->setControl(m_pObjectControl);
+  //OSG初始化
+  m_pFlashTimer = new QTimer(this);
+  connect(m_pFlashTimer, &QTimer::timeout, this, static_cast<void (QMainWindow::*)()>(&QMainWindow::update));
+  m_pOSGQtWidget = new jyOSGQtWidget();
+  m_pOSGQtWidget->setMvcControl(pOSGControl);
+  m_pOSGQtWidget->creatGraphicsWinQt(0, 0, 1600, 900, "mainWin", false);
+  ui.gridLayout->addWidget(m_pOSGQtWidget->getMainWidget());
+  m_pFlashTimer->start(FLASHTICK);
+  //手动调用进行初始化
+  m_pObjectControl->startInitSystem();
 }
 
 uiMainWindow::~uiMainWindow()
 {
+}
+
+void uiMainWindow::paintEvent(QPaintEvent * event)
+{
+  m_pOSGQtWidget->ViewerFlush();
 }

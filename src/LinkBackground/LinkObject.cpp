@@ -14,7 +14,7 @@ jyLinkObject::jyLinkObject(QObject* parent /* = Q_NULLPTR */):
   char sURL[40] = "";
   sprintf(sURL, "%s:%d/%s", g_sURL.c_str(), g_iPort, g_sLinkViewName.c_str());
   m_urlAddress.setUrl(QString(sURL));
-  qDebug() << m_urlAddress;
+  //qDebug() << m_urlAddress;
   //设置request参数
   m_pRequest->setUrl(m_urlAddress);
   m_pRequest->setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -30,6 +30,9 @@ jyLinkObject::~jyLinkObject()
   disconnect(m_pAccessManager, &QNetworkAccessManager::finished, m_EventLoop, &QEventLoop::quit);
   disconnect(m_qtimeTimeOut, &QTimer::timeout, m_EventLoop, &QEventLoop::quit);
   delete m_pRequest;
+  delete m_pShipData;
+  if (m_pReply)
+    m_pReply->deleteLater();
 }
 
 void jyLinkObject::setControl(jyShipControlPtr shipcontrol)
@@ -37,7 +40,7 @@ void jyLinkObject::setControl(jyShipControlPtr shipcontrol)
   m_pShipControl = shipcontrol;
 }
 
-void jyLinkObject::setShipID(QString shipid)
+void jyLinkObject::setShipID(const QString& shipid)
 {
   m_strShipID = shipid;
   QJsonObject jsonSendMsg;
@@ -72,6 +75,7 @@ void jyLinkObject::pollingLink()
       //未出错
       else
       {
+        
         QByteArray byteData = m_pReply->readAll();
         QJsonDocument jsonDocument = QJsonDocument::fromJson(byteData);
         QJsonObject jsonObject = jsonDocument.object();
@@ -95,9 +99,9 @@ void jyLinkObject::pollingLink()
         //输出测试
         for (stdMapString::iterator itr = m_pShipData->begin(); itr != m_pShipData->end(); ++itr)
         {
-          std::cout << itr->first<<" "<<itr->second<<std::endl;
+          //std::cout << itr->first<<" "<<itr->second<<std::endl;
         }
-        std::cout << "---------------------------------" << std::endl;
+        //std::cout << "---------------------------------" << std::endl;
       }
     }
     //定时器未激活，说明超时
@@ -108,6 +112,8 @@ void jyLinkObject::pollingLink()
       //发送ErrorMessage通知widget显示
       emit sigHttpLinkErrorMsg(m_strErrorMessage);
     }
+    m_pReply->deleteLater();
+    m_pReply = Q_NULLPTR;
     QThread::msleep(m_iTick);
   }
 }
